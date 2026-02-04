@@ -20,7 +20,17 @@ app.post("/notes", async (req, res) => {
 
 
 app.get("/notes", async (req, res) => {
-    const notes = await noteModel.find();
+    const notes = await noteModel.find(); // fetch all notes and retruns array of objects
+    
+
+    // const notes = await noteModel.find({
+    //     title: "hello this side_2"
+    // })
+
+
+    // const notes = await noteModel.findOne({
+    //     title: "hello this side_2"
+    // }) // fetch only one note and returns object
     res.status(200).json({
         message: "Notes fetched successfully",
         data: notes
@@ -28,6 +38,26 @@ app.get("/notes", async (req, res) => {
    
     })
 
+app.delete("/notes/:id", async (req, res) => {
+    const id = req.params.id;
+    await noteModel.findOneAndDelete({
+        _id: id
+    })
+    res.status(200).json({
+        message: "Note deleted successfully"
+    })
+})
+
+app.patch("/notes/:id", async (req, res) => {
+  const id = req.params.id;
+  const description = req.body.description;
+  await noteModel.findOneAndUpdate({
+    _id: id
+  },{description: description});
+  res.status(200).json({
+    message: "Note updated successfully"
+  })
+})
 
 
 
