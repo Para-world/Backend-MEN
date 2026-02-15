@@ -1,14 +1,15 @@
-const ImageKit = require("@imagekit/nodejs");
+const {ImageKit} = require("@imagekit/nodejs");
 
 const imagekit = new ImageKit({
-    privateKey:"private_4AsUGQ7T07puOuKtXrsVpEuyEQQ="
+    privateKey:process.env.IMAGEKIT_PRIVATE_KEY,
 
     
 })
 
 async function uploadFile(buffer){
-    const result = await imagekit.client.upload({
-        file:buffer,
+    console.log(buffer);
+    const result = await imagekit.files.upload({
+        file:buffer.toString("base64"),
         fileName:"image.jpg",
     })
 
